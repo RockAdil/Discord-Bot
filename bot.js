@@ -47,8 +47,19 @@ const client = new Client({
   ],
 });
 
+// Basic GET endpoint to keep the server awake
+app.get('/', (req, res) => {
+  res.send('Bot is running!');
+});
+
+// Start the express server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
+
 // Replace with your bot's token
-const token = process.env.BOT_TOKEN;
+// const token = process.env.BOT_TOKEN;
 
 client.once('ready', () => {
   console.log('Bot is online!');
@@ -309,14 +320,4 @@ client.on('guildMemberAdd', member => {
 // Login the bot using your token
 // client.login(token);
 
-// Vercel server route
-app.get('/', (req, res) => {
-  res.send('Bot is running!');
-});
-
 client.login(process.env.BOT_TOKEN);
-
-// Start the Express server
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
-});
