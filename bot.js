@@ -32,8 +32,11 @@
 
 // client.login(token);
 
+const express = require('express');
 const { Client, GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
+
+const app = express();
 
 const client = new Client({
   intents: [
@@ -304,4 +307,16 @@ client.on('guildMemberAdd', member => {
 });
 
 // Login the bot using your token
-client.login(token);
+// client.login(token);
+
+// Vercel server route
+app.get('/', (req, res) => {
+  res.send('Bot is running!');
+});
+
+client.login(process.env.BOT_TOKEN);
+
+// Start the Express server
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
