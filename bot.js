@@ -49,6 +49,10 @@ client.once('ready', () => {
   console.log('Bot is online!');
 });
 
+const greetingCooldowns = new Map();
+const bossCooldowns = new Map();
+const greetingCooldownTime = 30000;
+const bossCooldownTime = 600000;
 /**
  * Responding to User Messages and Reacting
  */
@@ -173,19 +177,34 @@ client.on('messageCreate', message => {
     'sup',
     "what's up",
   ];
-  if (greetings.includes(message.content.toLowerCase())) {
-    const responses = [
-      `Hello! <@${message.author.id}>`,
-      `Hi! <@${message.author.id}>`,
-      `Hey! <@${message.author.id}>`,
-      `Yo! <@${message.author.id}>`,
-      `What's up! <@${message.author.id}>`,
-      `Hey there! <@${message.author.id}>`,
-      `What's up! <@${message.author.id}>`,
-    ];
-    const randomResponse =
-      responses[Math.floor(Math.random() * responses.length)];
-    message.channel.send(randomResponse);
+
+  const userId = message.author.id; // Get the user's ID
+  const currentTime = Date.now(); // Get the current time
+
+  const mentionedBot = message.mentions.has(client.user);
+
+  if (greetings.includes(message.content.toLowerCase()) || mentionedBot) {
+    const lastGreetingTime = greetingCooldowns.get(userId);
+
+    if (
+      !lastGreetingTime ||
+      currentTime - lastGreetingTime >= greetingCooldownTime
+    ) {
+      const responses = [
+        `Hello! <@${message.author.id}>`,
+        `Hi! <@${message.author.id}>`,
+        `Hey! <@${message.author.id}>`,
+        `Yo! <@${message.author.id}>`,
+        `What's up! <@${message.author.id}>`,
+        `Hey there! <@${message.author.id}>`,
+        `What's up! <@${message.author.id}>`,
+      ];
+      const randomResponse =
+        responses[Math.floor(Math.random() * responses.length)];
+      message.channel.send(randomResponse);
+
+      greetingCooldowns.set(userId, currentTime);
+    }
   }
 
   // -----------------------DAY GREETINGS RESPONSE-----------------------
@@ -273,9 +292,18 @@ I hope you asked me else ignore.`
     message.content.toLowerCase().includes(`rock adil`) ||
     message.content.toLowerCase().includes(`adil ahamed`)
   ) {
-    message.channel.send(
-      `<@${ownerID}> Someone is calling you! or talking about you.`
-    );
+    const lastBossResponseTime = bossCooldowns.get(userId);
+
+    if (
+      !lastBossResponseTime ||
+      currentTime - lastBossResponseTime >= bossCooldownTime
+    ) {
+      message.channel.send(
+        `<@${ownerID}> Someone is calling you! or talking about you.`
+      );
+
+      bossCooldowns.set(userId, currentTime);
+    }
   }
 
   // -----------------------BYE RESPONSE-----------------------
