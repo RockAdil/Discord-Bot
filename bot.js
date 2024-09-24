@@ -45,9 +45,6 @@ const client = new Client({
   ],
 });
 
-// Replace with your bot's token
-// const token = process.env.BOT_TOKEN;
-
 client.once('ready', () => {
   console.log('Bot is online!');
 });
