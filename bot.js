@@ -124,8 +124,8 @@ client.on('messageCreate', message => {
   if (
     message.content.toLowerCase().includes('tags') ||
     message.content.toLowerCase().includes('tag') ||
-    /!\w+/.test(message.content)  
-  )  {
+    message.content.toLowerCase().includes('testt')
+  ) {
     const responses = [
       `Whoever talks about tags here is gay! <@${message.author.id}>`,
       `Tags are not allowed here. <@${message.author.id}>`,
@@ -286,6 +286,10 @@ I hope you asked me else ignore.`
 
   // -----------------------GOOD and BAD RESPONSE-----------------------
   const goods = [
+    'ok',
+    'okay',
+    'kk',
+    'alright',
     'thank you',
     'thanks',
     'thx',
@@ -307,10 +311,6 @@ I hope you asked me else ignore.`
     'wonderful',
   ];
   const bads = [
-    'no',
-    'nope',
-    'nah',
-    'nay',
     'not good',
     'not well',
     'bad',
@@ -335,7 +335,7 @@ I hope you asked me else ignore.`
   ];
   const content = message.content.toLowerCase().trim();
 
-  if (goods.some(good => content.includes(good))) {
+  if (goods.includes(message.content.toLowerCase())) {
     message.react('👍');
   }
 
@@ -345,7 +345,7 @@ I hope you asked me else ignore.`
     message.react('🥹');
   }
 
-  if (bads.some(bad => content.includes(bad))) {
+  if (bads.includes(message.content.toLowerCase())) {
     message.react('👎');
   }
 });
