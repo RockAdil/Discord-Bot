@@ -33,6 +33,7 @@
 // client.login(token);
 
 const { Client, GatewayIntentBits } = require('discord.js');
+const keep_alive = require('./keep_alive.js');
 require('dotenv').config();
 
 const client = new Client({
