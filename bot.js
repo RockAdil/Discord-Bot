@@ -123,8 +123,9 @@ client.on('messageCreate', message => {
   // ------------------- TAGS HATE RESPONSE --------------------------
   if (
     message.content.toLowerCase().includes('tags') ||
-    message.content.toLowerCase().includes('tag')
-  ) {
+    message.content.toLowerCase().includes('tag') ||
+    /!\w+/.test(message.content)  
+  )  {
     const responses = [
       `Whoever talks about tags here is gay! <@${message.author.id}>`,
       `Tags are not allowed here. <@${message.author.id}>`,
