@@ -32,11 +32,8 @@
 
 // client.login(token);
 
-const express = require('express');
 const { Client, GatewayIntentBits } = require('discord.js');
 require('dotenv').config();
-
-const app = express();
 
 const client = new Client({
   intents: [
@@ -45,17 +42,6 @@ const client = new Client({
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.GuildMembers,
   ],
-});
-
-// Basic GET endpoint to keep the server awake
-app.get('/', (req, res) => {
-  res.send('Bot is running!');
-});
-
-// Start the express server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
 });
 
 // Replace with your bot's token
@@ -73,10 +59,10 @@ client.on('messageCreate', message => {
 
   // ------------------- HINDI HATE RESPONSE --------------------------
   const Hindi_Hate_Response = [
-    'Aur bhailog kya haal chaal',
-    'Sab Theek',
-    'Sab theek hai',
-    'Sab theek hai bhai',
+    'aur bhailog kya haal chaal',
+    'sab Theek',
+    'sab theek hai',
+    'sab theek hai bhai',
     'are bhai',
     'aree bhai',
     'bhai',
@@ -92,6 +78,15 @@ client.on('messageCreate', message => {
     'chalo',
     'chalo bhai',
     'chalo bhaiyo',
+    'yaar',
+    'milega',
+    'kehde',
+    'mujhe',
+    'mere',
+    'khud ni',
+    'thik',
+    'jab',
+    'pata',
   ];
   if (
     Hindi_Hate_Response.some(phrase =>
@@ -121,6 +116,22 @@ client.on('messageCreate', message => {
       `Don’t worry, you are too ugly to kiss. <@${message.author.id}>.`,
       `Here is the gay community for you 🏳️‍🌈, <@${message.author.id}>.`,
       `Oh my God, how do you tell?? Usually only gays who can identify other gays. <@${message.author.id}> 🏳️‍🌈.`,
+    ];
+    const randomResponse =
+      responses[Math.floor(Math.random() * responses.length)];
+    message.channel.send(randomResponse);
+  }
+
+  // ------------------- TAGS HATE RESPONSE --------------------------
+  if (
+    message.content.toLowerCase().includes('tags') ||
+    message.content.toLowerCase().includes('tag')
+  ) {
+    const responses = [
+      `Whoever talks about tags here is gay! <@${message.author.id}>`,
+      `Tags are not allowed here. <@${message.author.id}>`,
+      `Don't talk about tags here. <@${message.author.id}>`,
+      `Avoid Talking about tags, Read the rule no. 6 <@${message.author.id}>`,
     ];
     const randomResponse =
       responses[Math.floor(Math.random() * responses.length)];
@@ -257,11 +268,11 @@ I hope you asked me else ignore.`
   // -----------------------BOSS CALL-----------------------
   const ownerID = '888712652409409546';
   if (
-    message.content.includes(`<@${ownerID}>`) ||
-    message.content.includes(`<@!${ownerID}>`) ||
-    message.content.includes(`adil`) ||
-    message.content.includes(`rock adil`) ||
-    message.content.includes(`adil ahamed`)
+    message.content.toLowerCase().includes(`<@${ownerID}>`) ||
+    message.content.toLowerCase().includes(`<@!${ownerID}>`) ||
+    message.content.toLowerCase().includes(`adil`) ||
+    message.content.toLowerCase().includes(`rock adil`) ||
+    message.content.toLowerCase().includes(`adil ahamed`)
   ) {
     message.channel.send(
       `<@${ownerID}> Someone is calling you! or talking about you.`
@@ -284,11 +295,48 @@ I hope you asked me else ignore.`
     'tysm',
     'thank you so much',
     'good',
+    'well',
+    'great',
+    'awesome',
+    'amazing',
+    'fantastic',
+    'nice',
+    'cool',
+    'sweet',
+    'superb',
+    'excellent',
+    'wonderful',
   ];
-  const bads = ['no', 'nope', 'nah', 'nay', 'not good', 'not well', 'bad'];
+  const bads = [
+    'no',
+    'nope',
+    'nah',
+    'nay',
+    'not good',
+    'not well',
+    'bad',
+    'not good',
+    'not well',
+    'not great',
+    'not awesome',
+    'not amazing',
+    'not fantastic',
+    'not nice',
+    'not cool',
+    'not sweet',
+    'not superb',
+    'not excellent',
+    'not wonderful',
+    'nood',
+    'noob',
+    'noobie',
+    'noobies',
+    'noobz',
+    'noobs',
+  ];
   const content = message.content.toLowerCase().trim();
 
-  if (goods.includes(content)) {
+  if (goods.some(good => content.includes(good))) {
     message.react('👍');
   }
 
@@ -298,8 +346,8 @@ I hope you asked me else ignore.`
     message.react('🥹');
   }
 
-  if (bads.includes(content)) {
-    message.react('😐');
+  if (bads.some(bad => content.includes(bad))) {
+    message.react('👎');
   }
 });
 
