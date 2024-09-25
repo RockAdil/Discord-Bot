@@ -32,6 +32,15 @@
 
 // client.login(token);
 
+
+// * FUNCTIONS
+const getRandomResponse = (responses) => {
+  const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+  message.channel.send(randomResponse);
+}
+
+// --------------- START -----------------
+
 const { Client, GatewayIntentBits } = require('discord.js');
 const keep_alive = require('./keep_alive.js');
 require('dotenv').config();
@@ -98,7 +107,7 @@ client.on('messageCreate', message => {
     const responses = [
       `Hey <@${message.author.id}>!, Can you please speak in English?`,
       `Sorry <@${message.author.id}>, I don't understand Hindi.`,
-      `Please use English, <@${message.author.id}>.`,
+      `Speak English Please 🙏😁, <@${message.author.id}>.`,
       `I can only respond to English messages, <@${message.author.id}>.`,
       `Let's keep the conversation in English, <@${message.author.id}>.`,
       `I know only little bit of Hindi, <@${message.author.id}>. Please use English.`,
@@ -106,9 +115,7 @@ client.on('messageCreate', message => {
       `Whoevers speaks in Hindi is gay, Including you <@${message.author.id}>.`,
       `Nood <@${message.author.id}>, I don't understand Hindi.`,
     ];
-    const randomResponse =
-      responses[Math.floor(Math.random() * responses.length)];
-    message.channel.send(randomResponse);
+    getRandomResponse(responses);
   }
 
   // ------------------- GAY RESPONSE --------------------------
@@ -119,26 +126,22 @@ client.on('messageCreate', message => {
       `Here is the gay community for you 🏳️‍🌈, <@${message.author.id}>.`,
       `Oh my God, how do you tell?? Usually only gays who can identify other gays. <@${message.author.id}> 🏳️‍🌈.`,
     ];
-    const randomResponse =
-      responses[Math.floor(Math.random() * responses.length)];
-    message.channel.send(randomResponse);
+    getRandomResponse(responses);
   }
 
-  // ------------------- TAGS HATE RESPONSE --------------------------
+  // ------------------- TAGS LEAKED RESPONSE --------------------------
   if (
     message.content.toLowerCase().includes('tags') ||
     message.content.toLowerCase().includes('tag') ||
-    message.content.toLowerCase().includes('testt')
+    message.content.toLowerCase().includes(message.content.startsWith('!') ? message.content.substring(1) : 'test') // todo : added one more condition that if someone leak the code tag on message, its detected and return the responses value
   ) {
     const responses = [
       `Whoever talks about tags here is gay! <@${message.author.id}>`,
       `Tags are not allowed here. <@${message.author.id}>`,
       `Don't talk about tags here. <@${message.author.id}>`,
-      `Avoid Talking about tags, Read the rule no. 6 <@${message.author.id}>`,
+      `Avoid Talking about tags, Read the #rules no. 6 <@${message.author.id}>`,
     ];
-    const randomResponse =
-      responses[Math.floor(Math.random() * responses.length)];
-    message.channel.send(randomResponse);
+    getRandomResponse(responses)
   }
 
   // ------------------- BAD WORDS RESPONSE --------------------------
@@ -157,10 +160,10 @@ client.on('messageCreate', message => {
       `Bad words are not allowed here. <@${message.author.id}>`,
       `No harmful words, please. <@${message.author.id}>`,
       `Avoid using bad words. <@${message.author.id}>`,
+      `Control your words. <@${message.author.id}>`
+      `wowowow chill chill, no need to use bad words. <@${message.author.id}>`
     ];
-    const randomResponse =
-      responses[Math.floor(Math.random() * responses.length)];
-    message.channel.send(randomResponse);
+    getRandomResponse(responses)
   }
 
   // -----------------------GREETINGS RESPONSE-----------------------
@@ -199,10 +202,7 @@ client.on('messageCreate', message => {
         `Hey there! <@${message.author.id}>`,
         `What's up! <@${message.author.id}>`,
       ];
-      const randomResponse =
-        responses[Math.floor(Math.random() * responses.length)];
-      message.channel.send(randomResponse);
-
+      getRandomResponse(responses)
       greetingCooldowns.set(userId, currentTime);
     }
   }
@@ -216,16 +216,16 @@ client.on('messageCreate', message => {
   ];
 
   const responses = {
-    'good morning': `Good Morning! <@${message.author.id}>`,
+    'good morning': `Good Morning! <@${message.author.id} 🌞>`,
     'good afternoon': `Good Afternoon! <@${message.author.id}>`,
     'good evening': `Good Evening! <@${message.author.id}>`,
-    'good night': `Good Night! <@${message.author.id}>`,
+    'good night': `Good Night! <@${message.author.id}> 🌙`,
   };
 
   const userMessage = message.content.toLowerCase();
 
   const greeting = dayGreetings.find(phrase => userMessage.includes(phrase));
-
+  
   if (greeting) {
     message.channel.send(responses[greeting]);
   }
@@ -246,8 +246,8 @@ client.on('messageCreate', message => {
     )
   ) {
     message.channel.send(
-      `I'm doing great! How about you, ${message.author.username}?, 
-I hope you asked me else ignore.`
+      `I'm doing great!😀
+      How about you, ${message.author.id}?, I hope you asked me else ignore.`
     );
   }
 
@@ -273,14 +273,12 @@ I hope you asked me else ignore.`
   if (boss.some(phrase => message.content.toLowerCase() === phrase)) {
     const ownerID = '888712652409409546';
     const responses = [
-      `My boss is <@${ownerID}>!`,
+      `My boss is <@${ownerID}> 😎!`,
       `I belong to <@${ownerID}>!`,
-      `I was created by <@${ownerID}>!`,
-      `I was made by <@${ownerID}>!`,
+      `I was created by <@${ownerID}> 😊!`,
+      `I was made by <@${ownerID}> 😁!`,
     ];
-    const randomResponse =
-      responses[Math.floor(Math.random() * responses.length)];
-    message.channel.send(randomResponse);
+    getRandomResponse(responses);
   }
 
   // -----------------------BOSS CALL-----------------------
@@ -299,7 +297,7 @@ I hope you asked me else ignore.`
       currentTime - lastBossResponseTime >= bossCooldownTime
     ) {
       message.channel.send(
-        `<@${ownerID}> Someone is calling you! or talking about you.`
+        `<@${ownerID}> Seems someone is calling you! or talking about you.`
       );
 
       bossCooldowns.set(userId, currentTime);
@@ -391,8 +389,5 @@ client.on('guildMemberAdd', member => {
     );
   }
 });
-
-// Login the bot using your token
-// client.login(token);
 
 client.login(process.env.BOT_TOKEN);
